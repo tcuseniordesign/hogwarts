@@ -3,6 +3,7 @@ package edu.tcu.cs.hogwartsartifactsonline.service;
 import edu.tcu.cs.hogwartsartifactsonline.dao.UserDao;
 import edu.tcu.cs.hogwartsartifactsonline.domain.MyUserPrincipal;
 import edu.tcu.cs.hogwartsartifactsonline.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,8 +19,12 @@ public class UserService implements UserDetailsService {
     private UserDao userDao;
     private BCryptPasswordEncoder encoder;
 
-    public UserService(UserDao userDao, BCryptPasswordEncoder encoder) {
+    public UserService(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    @Autowired
+    public void setEncoder(BCryptPasswordEncoder encoder) {
         this.encoder = encoder;
     }
 
