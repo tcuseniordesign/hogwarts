@@ -1,0 +1,598 @@
+swagger: "2.0"
+info:
+  description: "Hogwarts Artifacts Online provides REST APIs to CRUD artifacts, wizards and users."
+  version: "1.0.0"
+  title: "Hogwarts Artifacts Online"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "b.wei@tcu.edu"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8080"
+basePath: "/"
+tags:
+- name: "artifacts"
+  description: "Everything about Hogwarts artifacts"
+- name: "wizards"
+  description: "Access to Hogwarts wizards"
+- name: "users"
+  description: "Access to Hogwarts Artifacts Online users"
+schemes:
+- "http"
+paths:
+  /artifacts:
+    get:
+        tags:
+        - "artifacts"
+        summary: "Find all artifacts from the collection"
+        responses:
+          200:
+            description: "Find All Success"
+            schema:
+              $ref: '#/definitions/ApiFindAllArtifactsResponse'
+    post:
+      tags:
+      - "artifacts"
+      summary: "Add a new artifact to the collection"
+      description: ""
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Artifact object that needs to be added"
+        required: true
+        schema:
+          example:
+              name: "Deluminator"
+              description: "A Deluminator is a device invented by Albus Dumbledore that resembles a cigarette lighter. It is used to remove or absorb (as well as return) the light from any light source to provide cover to the user."
+              imageUrl: "imageUrl"
+      responses:
+        200:
+          description: Save Success
+          schema:
+            $ref: '#/definitions/ApiSaveResponse'
+  /artifacts/{artifactId}:
+    put:
+      tags:
+      - "artifacts"
+      summary: "Update an existing artifact"
+      parameters:
+      - name: "artifactId"
+        in: path
+        description: Artifact ID
+        required: true
+        type: string
+      - name: "body"
+        in: body
+        description: "Artifact object that needs to be updated"
+        required: true
+        schema:
+          example:
+              name: "Deluminator"
+              description: "A Deluminator is a device invented by Albus Dumbledore that resembles a cigarette lighter. It is used to remove or absorb (as well as return) the light from any light source to provide cover to the user."
+              imageUrl: "imageUrl"
+      responses:
+        200:
+          description: Update Success
+          schema:
+            $ref: '#/definitions/ApiUpdateResponse'
+    get:
+      tags:
+      - "artifacts"
+      summary: "Find an artifact by id"
+      description: ""
+      parameters:
+      - name: "artifactId"
+        in: path
+        description: Artifact ID
+        required: true
+        type: string
+      responses:
+        200:
+          description: Find One Success
+          schema:
+            $ref: '#/definitions/ApiFindOneArtifactResponse'
+    delete:
+      tags:
+      - "artifacts"
+      summary: "Delete an artifact"
+      description: ""
+      parameters:
+      - name: "artifactId"
+        in: "path"
+        description: "Artifact id to delete"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: Delete Success
+          schema:
+            $ref: '#/definitions/ApiDeleteResponse'
+
+  /wizards:
+    get:
+        tags:
+        - "wizards"
+        summary: "Find all wizards"
+        responses:
+          200:
+            description: "Find All Success"
+            schema:
+              $ref: '#/definitions/ApiFindAllWizardsResponse'
+    post:
+      tags:
+      - "wizards"
+      summary: "Add a new wizard"
+      description: ""
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Wizard object that needs to be added"
+        required: true
+        schema:
+          example:
+              name: "Harry Potter"
+      responses:
+        200:
+          description: Save Success
+          schema:
+            $ref: '#/definitions/ApiSaveResponse'
+  /wizards/{wizardId}:
+    put:
+      tags:
+      - "wizards"
+      summary: "Update an existing wizard"
+      parameters:
+      - name: "wizardId"
+        in: path
+        description: Wizard ID
+        required: true
+        type: string
+      - name: "body"
+        in: body
+        description: "Wizard object that needs to be updated"
+        required: true
+        schema:
+          example:
+              name: "Harry Potter"
+      responses:
+        200:
+          description: Update Success
+          schema:
+            $ref: '#/definitions/ApiUpdateResponse'
+    get:
+      tags:
+      - "wizards"
+      summary: "Find a wizard by id"
+      description: ""
+      parameters:
+      - name: "wizardId"
+        in: path
+        description: "Wizard Id"
+        required: true
+        type: string
+      responses:
+        200:
+          description: Find One Success
+          schema:
+            $ref: '#/definitions/ApiFindOneWizardResponse'
+    delete:
+      tags:
+      - "wizards"
+      summary: "Delete a wizard"
+      description: ""
+      parameters:
+      - name: "wizardId"
+        in: "path"
+        description: "Wizard id to delete"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: Delete Success
+          schema:
+            $ref: '#/definitions/ApiDeleteResponse'
+  /wizards/{wizardId}/{artifactId}:
+    put:
+      tags:
+      - "wizards"
+      summary: "Assign an artifact to a wizard"
+      description: ""
+      parameters:
+      - name: "wizardId"
+        in: "path"
+        description: "Wizard id"
+        required: true
+        type: "string"
+      - name: "artifactId"
+        in: "path"
+        description: "Artifact id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: Artifact Assignment Success
+          schema:
+            $ref: '#/definitions/ApiAssignmentResponse'
+  /users:
+    get:
+        tags:
+        - "users"
+        summary: "Find all users"
+        responses:
+          200:
+            description: "Find All Success"
+            schema:
+              $ref: '#/definitions/ApiFindAllUsersResponse'
+    post:
+      tags:
+      - "users"
+      summary: "Add a new user"
+      description: ""
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User object that needs to be added"
+        required: true
+        schema:
+          example:
+              username: "john"
+              enabled: true
+              roles: "admin"
+      responses:
+        200:
+          description: "Save Success"
+          schema:
+            $ref: '#/definitions/ApiSaveResponse'
+  /users/{userId}:
+    put:
+      tags:
+      - "users"
+      summary: "Update an existing user"
+      parameters:
+      - name: "userId"
+        in: path
+        description: User ID
+        required: true
+        type: string
+      - name: "body"
+        in: body
+        description: "User object that needs to be updated"
+        required: true
+        schema:
+          example:
+              username: "john"
+              enabled: true
+              roles: "admin"
+      responses:
+        200:
+          description: "Update Success"
+          schema:
+            $ref: '#/definitions/ApiUpdateResponse'
+    get:
+      tags:
+      - "users"
+      summary: "Find a user by id"
+      description: ""
+      parameters:
+      - name: "userId"
+        in: path
+        description: User ID
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Find One Success"
+          schema:
+            $ref: '#/definitions/ApiFindOneUserResponse'
+    delete:
+      tags:
+      - "users"
+      summary: "Delete a user"
+      description: ""
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "User id to delete"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Delete Success"
+          schema:
+            $ref: '#/definitions/ApiDeleteResponse'
+  /users/login:
+    post:
+      tags:
+      - "users"
+      summary: "Log in"
+      description: ""
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: username
+          type: string
+        - in: formData
+          name: password
+          type: string
+      responses:
+        200:
+          description: "Login Success"
+          schema:
+            $ref: '#/definitions/ApiLoginResponse'
+         
+  
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Artifact:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "1250808601736515584"
+      name:
+        type: "string"
+        example: "Deluminator"
+      description:
+        type: "string"
+        example: "A Deluminator is a device invented by Albus Dumbledore that resembles a cigarette lighter. It is used to remove or absorb (as well as return) the light from any light source to provide cover to the user."
+      imageUrl:
+        type: "string"
+        example: "imageUrl"
+  Wizard:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        example: 2
+      name:
+        type: "string"
+        example: "Harry Potter"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        example: 1
+      username:
+        type: "string"
+        example: "john"
+      enabled:
+        type: "boolean"
+        example: true
+      roles:
+        type: "string"
+        example: "admin"
+  ArtifactList:
+    type: array
+    items:
+        $ref: '#/definitions/Artifact'
+    example: 
+     - id: "1250808601736515584"
+       name: "Deluminator"
+       description: "A Deluminator is a device invented by Albus Dumbledore that resembles a cigarette lighter. It is used to remove or absorb (as well as return) the light from any light source to provide cover to the user."
+       imageUrl: "imageUrl"
+     - id: "1250808601744904193"
+       name: "Invisibility Cloak"
+       description: "An invisibility cloak is used to make the wearer invisible."
+       imageUrl: "imageUrl"
+     - id: "1250808601744904192"
+       name: "Elder Wand"
+       description: "The Elder Wand, known throughout history as the Deathstick or the Wand of Destiny, is an extremely powerful wand made of elder wood with a core of Thestral tail hair."
+       imageUrl: "imageUrl"
+     - id: "1250808601744904194"
+       name: "The Marauder's Map"
+       description: "A magical map of Hogwarts created by Remus Lupin, Peter Pettigrew, Sirius Black, and James Potter while they were students at Hogwarts."
+       imageUrl: "imageUrl"
+     - id: "1250808601744904195"
+       name: "The Sword Of Gryffindor"
+       description: "A goblin-made sword adorned with large rubies on the pommel. It was once owned by Godric Gryffindor, one of the medieval founders of Hogwarts."
+       imageUrl: "imageUrl"
+     - id: "1250808601744904196"
+       name: "Resurrection Stone"
+       description: "The Resurrection Stone allows the holder to bring back deceased loved ones, in a semi-physical form, and communicate with them."
+       imageUrl: "imageUrl"
+  WizardList:
+    type: array
+    items:
+        $ref: '#/definitions/Wizard'
+    example: 
+     - id: 1
+       name: "Albus Dumbledore"
+     - id: 2
+       name: "Harry Potter"
+     - id: 3
+       name: "Neville Longbottom"
+
+  UserList:
+    type: array
+    items:
+        $ref: '#/definitions/User'
+    example: 
+     - id: 1
+       username: "john"
+       password: "$2a$10$HVb2HN2NbM/4.bc7yR4qr.V8v1.X/zNAOrVeD4u5rDMsQYiC0wbIq"
+       enabled: true
+       roles: "admin"
+     - id: 2
+       username: "eric"
+       password: "$2a$10$BdTBpV.czzpQjdE4ZWEMGuVv.TpdQNFkNtehnAMLAlIbnFzN5fJhS"
+       enabled: true
+       roles: "user"
+     - id: 3
+       username: "tom"
+       password: "$2a$10$48mUL5zr9v.Lk1.RLnHtm.IaWInv8qWsuYbL96zjCe7sqJHwQsJbG"
+       enabled: false
+       roles: "user"
+  ApiSaveResponse:
+    type: object
+    properties:
+      flag:
+        type: boolean
+        description: Success or not
+      code:
+        type: integer
+        description: Return code
+        example: 200
+      message:
+        type: string
+        example: "Save Success"
+  ApiUpdateResponse:
+    type: object
+    properties:
+      flag:
+        type: boolean
+        description: Success or not
+      code:
+        type: integer
+        description: Return code
+        example: 200
+      message:
+        type: string
+        example: "Update Success"
+  ApiDeleteResponse:
+    type: object
+    properties:
+      flag:
+        type: boolean
+        description: Success or not
+      code:
+        type: integer
+        description: Return code
+        example: 200
+      message:
+        type: string
+        example: "Delete Success"
+  ApiLoginResponse:
+    type: object
+    properties:
+      flag:
+        type: boolean
+        description: Success or not
+      code:
+        type: integer
+        description: Return code
+        example: 200
+      message:
+        type: string
+        example: "Login Success"
+  ApiAssignmentResponse:
+    type: object
+    properties:
+      flag:
+        type: boolean
+        description: Success or not
+      code:
+        type: integer
+        description: Return code
+        example: 200
+      message:
+        type: string
+        example: "Artifact Assignment Success"
+  ApiFindAllArtifactsResponse:
+    type: "object"
+    properties:
+      flag:
+        type: "boolean"
+        description: Success or not
+      code:
+        type: "integer"
+        example: 200
+      message:
+        type: "string"
+        example: "Find All Success"
+      data:
+        $ref: '#/definitions/ArtifactList'
+  ApiFindAllWizardsResponse:
+    type: "object"
+    properties:
+      flag:
+        type: "boolean"
+        description: Success or not
+      code:
+        type: "integer"
+        example: 200
+      message:
+        type: "string"
+        example: "Find All Success"
+      data:
+        $ref: '#/definitions/WizardList'
+  ApiFindAllUsersResponse:
+    type: "object"
+    properties:
+      flag:
+        type: "boolean"
+        description: Success or not
+      code:
+        type: "integer"
+        example: 200
+      message:
+        type: "string"
+        example: "Find All Success"
+      data:
+        $ref: '#/definitions/UserList'
+  ApiFindOneArtifactResponse:
+    type: "object"
+    properties:
+      flag:
+        type: "boolean"
+        description: Success or not
+      code:
+        type: "integer"
+        example: 200
+      message:
+        type: "string"
+        example: "Find One Success"
+      data:
+        example: 
+          id: "1250808601744904193"
+          name: "Invisibility Cloak"
+          description: "An invisibility cloak is used to make the wearer invisible."
+          imageUrl: "imageUrl"
+  ApiFindOneWizardResponse:
+    type: "object"
+    properties:
+      flag:
+        type: "boolean"
+        description: Success or not
+      code:
+        type: "integer"
+        example: 200
+      message:
+        type: "string"
+        example: "Find One Success"
+      data:
+        example: 
+           id: 1
+           name: "Albus Dumbledore"
+  ApiFindOneUserResponse:
+    type: "object"
+    properties:
+      flag:
+        type: "boolean"
+        description: Success or not
+      code:
+        type: "integer"
+        example: 200
+      message:
+        type: "string"
+        example: "Find One Success"
+      data:
+        example:
+            id: 1
+            username: "john"
+            password: "$2a$10$HVb2HN2NbM/4.bc7yR4qr.V8v1.X/zNAOrVeD4u5rDMsQYiC0wbIq"
+            enabled: true
+            roles: "admin"
